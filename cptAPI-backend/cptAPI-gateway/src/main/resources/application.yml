@@ -1,0 +1,27 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /api
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - AddResponseHeader=source,cpt
+      routes:
+        - id: api_route
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+  # DataSource Config
+
+dubbo:
+  application:
+    name: dubbo-springboot-demo-consumer
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://localhost:8848
+  consumer:
+    timeout: 30000
